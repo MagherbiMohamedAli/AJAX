@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Hello!</title>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        #first {
+            background-color: #0044FF;
+            border-radius: 5px;
+            padding-left: 17px;
+            padding-top: 5px;
+            padding-bottom: 20px;
+            margin-top: 5px;
+            color: white;
+        }
+    </style>
+    <script>
+        function addmsg() {
+
+            var message = document.getElementById("zonetext").value;
+            var email = document.getElementById("email").value;
+            console.log(message);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", " http://chakerbm.tn/services/addmessage.php", true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+            xhr.send("message=" + message + "&email=" + email + "");
+
+
+        }
+
+
+        charger();
+        setInterval(function () {
+            charger();
+        }, 2000);
+        
+        function inscrit() {
+
+            var nom = document.getElementById("nom_inscrit").value;
+            var mail = document.getElementById("email_inscrit").value;
+            var pswd = document.getElementById("pswd_inscrit").value;
+            console.log(nom);
+            console.log(mail);
+            console.log(pswd);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://chakerbm.tn/services/adduser.php", true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+            xhr.send("nom=" + nom + "&email=" + mail + "&pass=" + pswd + "");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    console.log(xhr.responseXML);
+
+                }
+            }
+        }
+        function login() {
+
+            var mail = document.getElementById("email").value;
+            var pswd = document.getElementById("pswd").value;
+            console.log(mail);
+            console.log(pswd);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://chakerbm.tn/services/verif.php?email=" + email + "&pass=" + pswd, true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+            xhr.send();
+            var j = document.getElementById("tete2");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    console.log(xhr.responseXML);
+                    document.getElementById("zonetext").disabled = false;
+                    document.getElementById("bouton").disabled = false;
+                    document.getElementById("nom_inscrit").hidden = true;
+                    document.getElementById("email_inscrit").hidden = true;
+                    document.getElementById("pswd_inscrit").hidden = true;
+                    document.getElementById("tete").hidden = true;
+                    document.getElementById("bouton").hidden = true;
+
+                    var t = j.innerHTML = "Bienvenue " + mail;
+
+                    document.getElementById("email").hidden = true;
+                    document.getElementById("pswd").hidden = true;
+                    document.getElementById("bouton2").hidden = true;
+
+
+
+
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div>
+                    <h1 id="first">Chat ESSAT V1.0</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <div class="row">
+                    <div class="card text-bg-light mb-3" style="max-width: 18rem;">
+
+                        <h5 class="card-title" id="tete2">Connexion</h5></br>
+                        <input type="text" id="email" class="form-control" placeholder="Votre email"></br>
+                        <input type="password" id="pswd" class="form-control" placeholder="Votre Password"></br>
+                        <button class="btn btn-primary" type="submit" id="bouton2" onclick="login()">Connexion</button>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:20px">
+                    <div class="card text-bg-light mb-3" style="max-width: 18rem;" id="card">
+
+                        <h5 class="card-title" id="tete">Inscription</h5>
+                        <input type="text" placeholder="Votre Nom" class="form-control" id="nom_inscrit" /></br>
+                        <input type="text" id="email_inscrit" class="form-control" placeholder="Votre email"></br>
+                        <input type="password" id="pswd_inscrit" class="form-control" placeholder="Votre Password"></br>
+
+                        <button class="btn btn-primary" id="bouton" type="submit"
+                            onclick="inscrit()">Inscription</button>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="col-10">
+                        <input class="form-control" id="zonetext" type="text" placeholder="Votre message"
+                            aria-label="Disabled input example" disabled>
+                    </div>
+                    <div class="col">
+                        <button type="button" id="bouton" onclick="addmsg()" class="btn btn-warning" disabled>Envoi
+                            Message</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="container mt-5">
+                        <div class="card p-5" style="background-color: #f6fafd;">
+                            <ul>
+
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
